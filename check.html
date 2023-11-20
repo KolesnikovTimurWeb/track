@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+   <title>Перевозки</title>
+
+   <link rel="stylesheet" href="./css/swiper-bundle2.min.css">
+   <link rel="stylesheet" href="./css/style.css">
+   <link rel='stylesheet' href='https://unpkg.com/maplibre-gl/dist/maplibre-gl.css' />
+   <script src='https://unpkg.com/maplibre-gl/dist/maplibre-gl.js'></script>
+
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<style>
+   .global {
+      background-color: #fff !important;
+   }
+
+   .register {
+      background-color: #fff !important;
+
+   }
+
+   .global-form input {
+      background: #c0c0c0;
+      color: #000;
+   }
+
+   .logo {
+      display: none;
+   }
+</style>
+
+<body>
+
+   <main>
+
+
+      <section class="section register">
+         <div class="logo">
+            <img src="./img/logo.svg" alt="">
+         </div>
+
+
+         <div class="global active">
+            <h1>Заполнение данных </h1>
+            <div class="global-block container">
+               <h2>Данные о перевозчике:</h2>
+               <form class="global-form">
+                  <input type="text" class="fullname-vehichal" placeholder="Полное наименование">
+                  <input type="text" placeholder="ФИО Генерального директора">
+                  <input type="text" placeholder="ИНН">
+                  <input type="text" placeholder="Тип заявителя">
+                  <input type="text" placeholder="ОГРН">
+                  <input type="text" placeholder="ОГРНИП">
+               </form>
+            </div>
+            <div class="global-block container">
+               <h2>Контактная информация:</h2>
+               <form class="global-form">
+                  <input type="text" class="tel-vehichal" placeholder="Мобильный телефон">
+                  <input type="text" class="email-vehichal" placeholder="Email">
+               </form>
+            </div>
+            <div class="global-block container">
+               <h2>Сведения о тягаче:</h2>
+               <form class="global-form">
+                  <input type="text" class="markcar-vehichal" placeholder="Марка тягача">
+                  <input type="text" class="modelcar-vehichal" placeholder="Модель тягача">
+               </form>
+            </div>
+            <div class="global-block container">
+               <h2> Адрес регистрации:</h2>
+               <form class="global-form">
+                  <input type="text" class="country-vehichal" placeholder="Страна регистрации">
+                  <input type="text" placeholder="Регион">
+                  <input type="text" class="city-vehichal" placeholder="Город">
+                  <input type="text" class="raon-vehichal" placeholder="Район">
+                  <input type="text" placeholder="Улица">
+                  <input type="text" class="house-vehichal" placeholder="Дом">
+                  <input type="text" placeholder="Строение">
+                  <input type="text" class="numberhouse-vehichal" placeholder="Квартира">
+               </form>
+            </div>
+            <div class="global-block container">
+               <h2>Сведения о грузе:</h2>
+               <form class="global-form">
+                  <input type="text" placeholder="Тип груза">
+                  <input type="text" class="name-track-vehichal" placeholder="Наименование груза ">
+                  <input type="number" class="weight-vehichal" placeholder="Масса (т)">
+                  <input type="number" class="lenght-vehichal" placeholder="Длинна (м)">
+                  <input type="number" class="width-vehichal" placeholder="Ширина, (м)">
+                  <input type="number" class="height-vehichal" placeholder="Высота (м)">
+                  <input type="text" placeholder="ОГРНИП">
+               </form>
+            </div>
+            <div class="global-block container">
+               <div id="map"></div>
+            </div>
+         </div>
+      </section>
+
+   </main>
+
+</body>
+<script>
+   let weightVehichal = localStorage.getItem('weight-vehichal')
+   let heightVehichal = localStorage.getItem('height-vehichal')
+   let lenghtVehichal = localStorage.getItem('lenght-vehichal')
+   let widthVehichal = localStorage.getItem('width-vehichal')
+   let nameTrackVehichal = localStorage.getItem('name-track-vehichal')
+   let fullnamekVehichal = localStorage.getItem('fullname-vehichal')
+   let countryVehichal = localStorage.getItem('country-vehichal')
+   let cityVehichal = localStorage.getItem('city-vehichal')
+   let raonVehichal = localStorage.getItem('raon-vehichal')
+   let houseVehichal = localStorage.getItem('house-vehichal')
+   let emailVehichal = localStorage.getItem('email-vehichal')
+   let namelVehichal = localStorage.getItem('name-vehichal')
+   let markCarlVehichal = localStorage.getItem('markcar-vehichal')
+   let modelCarlVehichal = localStorage.getItem('modelcar-vehichal')
+   let telVehichal = localStorage.getItem('tel-vehichal')
+
+   document.querySelector('.tel-vehichal').value = telVehichal
+   document.querySelector('.city-vehichal').value = cityVehichal
+   document.querySelector('.markcar-vehichal').value = markCarlVehichal
+   document.querySelector('.modelcar-vehichal').value = modelCarlVehichal
+
+   document.querySelector('.email-vehichal').value = emailVehichal
+   document.querySelector('.house-vehichal').value = houseVehichal
+   document.querySelector('.country-vehichal').value = countryVehichal
+   document.querySelector('.fullname-vehichal').value = fullnamekVehichal
+   document.querySelector('.name-track-vehichal').value = nameTrackVehichal
+   document.querySelector('.weight-vehichal').value = weightVehichal
+   document.querySelector('.lenght-vehichal').value = lenghtVehichal
+   document.querySelector('.width-vehichal').value = widthVehichal
+   document.querySelector('.height-vehichal').value = heightVehichal
+   document.querySelector('.raon-vehichal').value = raonVehichal
+   let inputs = document.querySelectorAll('input')
+   inputs.forEach(el => {
+
+      el.disabled = true
+   })
+
+
+   let map1X = localStorage.getItem('map-x-1')
+   let map2X = localStorage.getItem('map-x-2')
+   let map3X = localStorage.getItem('map-x-3')
+   let map4X = localStorage.getItem('map-x-4')
+   let map5X = localStorage.getItem('map-x-5')
+   let map1Y = localStorage.getItem('map-y-1')
+   let map2Y = localStorage.getItem('map-y-2')
+   let map3Y = localStorage.getItem('map-y-3')
+   let map4Y = localStorage.getItem('map-y-4')
+   let map5Y = localStorage.getItem('map-y-5')
+
+
+
+   const map = new maplibregl.Map({
+      container: 'map',
+      style: 'https://api.maptiler.com/maps/basic-v2/style.json?key=xSPWILBLkNJBdAg3hKnc',
+      center: [58.088886, 56.425602],
+      zoom: 4
+   });
+
+   map.on('load', () => {
+      map.addSource('lines', {
+         'type': 'geojson',
+         'data': {
+            'type': 'FeatureCollection',
+            'features': [
+               {
+                  'type': 'Feature',
+                  'properties': {
+                     'color': '#F7455D' // red
+                  },
+                  'geometry': {
+                     'type': 'LineString',
+                     'coordinates': [
+                        [map1X, map1Y],
+                        [map2X, map2Y],
+                        [map3X, map3Y],
+                        [map4X, map4Y],
+                        [map5X, map5Y],
+                     ]
+                  }
+               },
+               {
+                  'type': 'Feature',
+                  'properties': {
+                     'color': '#33C9EB' // blue
+                  },
+                  'geometry': {
+                     'type': 'LineString',
+                     'coordinates': [
+                        [-122.48393028974533, 37.829471820141016],
+                        [-122.48395174741744, 37.82940826466351],
+                        [-122.48395174741744, 37.829412501697064],
+                        [-122.48423874378203, 37.829357420242125],
+                        [-122.48422533273697, 37.829361657278575],
+                        [-122.48459815979002, 37.8293425906126],
+                        [-122.48458743095398, 37.8293447091313],
+                        [-122.4847564101219, 37.82932776098012],
+                        [-122.48474299907684, 37.829331998018276],
+                        [-122.4849334359169, 37.829298101706186],
+                        [-122.48492807149889, 37.82930022022615],
+                        [-122.48509705066681, 37.82920488676767],
+                        [-122.48509168624878, 37.82920912381288],
+                        [-122.48520433902739, 37.82905870855876],
+                        [-122.48519897460936, 37.82905870855876],
+                        [-122.4854403734207, 37.828594749716714],
+                        [-122.48543500900269, 37.82860534241688],
+                        [-122.48571664094925, 37.82808206121068],
+                        [-122.48570591211319, 37.82809689109353],
+                        [-122.4858346581459, 37.82797189627337],
+                        [-122.48582661151886, 37.82797825194729],
+                        [-122.4859634041786, 37.82788503534145],
+                        [-122.48595803976059, 37.82788927246246],
+                        [-122.48605459928514, 37.82786596829394]
+                     ]
+                  }
+               }
+            ]
+         }
+      });
+      map.addLayer({
+         'id': 'lines',
+         'type': 'line',
+         'source': 'lines',
+         'paint': {
+            'line-width': 3,
+            // Use a get expression (https://maplibre.org/maplibre-style-spec/expressions/#get)
+            // to set the line-color to a feature property value.
+            'line-color': ['get', 'color']
+         }
+      });
+   });
+</script>
+
+</html>
